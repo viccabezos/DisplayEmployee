@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import DisplayEmployee from "./components/DisplayEmployee";
+import axios from "axios";
+import React, { useState } from "react";
 
 function App() {
+  const [employee, setEmployee] = useState(null);
+
+  const getEmployee = () => {
+    axios
+      .get("https://randomuser.me/api?nat=en")
+      .then((res) => res.data)
+      .then((data) => {
+        console.log(data);
+        setEmployee(data.results[0]);
+      });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button type="button" onClick={getEmployee}>
+        Get employee
+      </button>
+      <DisplayEmployee employee={employee} />
     </div>
   );
 }
